@@ -45,36 +45,12 @@ const breadcrumbs = [{ name: "Home", url: siteUrl }];
         <p class="hero-kicker">Geopolitical Intelligence</p>
         <h1 class="hero-headline">The world, read from India's vantage point.</h1>
         <p class="hero-sub">Independent geopolitical intelligence for analysts, investors, and policymakers who make decisions where India matters.</p>
-        <div class="hero-promise-single">
-          <span class="hero-promise-icon">🔓</span>
-          <span class="hero-promise-text">No paywall. No premium tier. Intelligence shouldn't be gated.</span>
-        </div>
-
-        <div class="hero-bottom">
-          <div class="hero-rule"></div>
-          <div class="hero-promise-row">
-            <div class="hero-promise-item">
-              <span class="hero-promise-icon">⚖️</span>
-              <div>
-                <div class="hero-promise-title">No Agenda</div>
-                <div class="hero-promise-text">Independent and unaffiliated — no party, no advertiser, no ideology.</div>
-              </div>
-            </div>
-            <div class="hero-promise-item">
-              <span class="hero-promise-icon">🔍</span>
-              <div>
-                <div class="hero-promise-title">Analysis, Not Opinion</div>
-                <div class="hero-promise-text">We explain India's strategic logic. What you conclude is your business.</div>
-              </div>
-            </div>
-            <div class="hero-promise-item">
-              <span class="hero-promise-icon">🔓</span>
-              <div>
-                <div class="hero-promise-title">Always Free</div>
-                <div class="hero-promise-text">No paywall. No premium tier. Intelligence should not be gated.</div>
-              </div>
-            </div>
-          </div>
+        <div class="hero-proof">
+          <span>No opinion columns</span>
+          <span class="proof-sep">·</span>
+          <span>No domestic politics</span>
+          <span class="proof-sep">·</span>
+          <span>No Western framing</span>
         </div>
       </div>
 
@@ -281,74 +257,20 @@ const breadcrumbs = [{ name: "Home", url: siteUrl }];
     margin-bottom: 1.5rem;
   }
 
-  .hero-promise-single {
+  .hero-proof {
+    font-family: var(--font-ui);
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-muted);
     display: flex;
     align-items: center;
     gap: 0.6rem;
-    font-family: var(--font-ui);
-    font-size: 0.82rem;
-    color: var(--color-text-muted);
   }
 
-  .hero-promise-single .hero-promise-icon {
-    font-size: 1rem;
-    display: inline;
-    margin-bottom: 0;
-  }
-
-  .hero-promise-single .hero-promise-text {
-    font-family: var(--font-ui);
-    font-size: 0.82rem;
-    color: var(--color-text-muted);
-    line-height: 1.4;
-  }
-
-  /* ---- Hero promise block ---- */
-  .hero-bottom {
-    margin-top: 2rem;
-  }
-
-  .hero-rule {
-    height: 1px;
-    background: var(--color-border);
-    margin-bottom: 1.5rem;
-  }
-
-  .hero-promise-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 0.75rem;
-  }
-
-  .hero-promise-item {
-    padding: 1rem;
-    background: var(--color-white);
-    border: 0.5px solid var(--color-border);
-    border-left: 3px solid var(--color-accent);
-    border-radius: 2px;
-  }
-
-  .hero-promise-icon {
-    font-size: 1.1rem;
-    display: block;
-    margin-bottom: 0.4rem;
-  }
-
-  .hero-promise-title {
-    font-family: var(--font-ui);
-    font-size: 0.72rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--color-primary);
-    margin-bottom: 0.2rem;
-  }
-
-  .hero-promise-text {
-    font-family: var(--font-body);
-    font-size: 0.82rem;
-    color: var(--color-text-secondary);
-    line-height: 1.5;
+  .proof-sep {
+    color: var(--color-border);
   }
 
   /* ---- Chess illustration ---- */
@@ -491,10 +413,6 @@ const breadcrumbs = [{ name: "Home", url: siteUrl }];
 
     .hero-subscribe-text {
       white-space: normal;
-    }
-
-    .hero-promise-row {
-      grid-template-columns: 1fr;
     }
 
     .article-feed-section {
