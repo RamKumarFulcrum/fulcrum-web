@@ -53,31 +53,21 @@ const breadcrumbs = [{ name: "Home", url: siteUrl }];
           <span>No Western framing</span>
         </div>
 
-        <div class="hero-bottom">
-          <div class="hero-rule"></div>
-
-          <div class="hero-promise-row">
-            <div class="hero-promise-item">
-              <span class="hero-promise-icon">⚖️</span>
-              <div>
-                <div class="hero-promise-title">No Agenda</div>
-                <div class="hero-promise-text">No party affiliation. No nationalist bias. No advertiser influence.</div>
-              </div>
-            </div>
-            <div class="hero-promise-item">
-              <span class="hero-promise-icon">🔍</span>
-              <div>
-                <div class="hero-promise-title">No Opinion</div>
-                <div class="hero-promise-text">We explain India's strategic logic. We do not tell you what to think.</div>
-              </div>
-            </div>
-            <div class="hero-promise-item">
-              <span class="hero-promise-icon">🔓</span>
-              <div>
-                <div class="hero-promise-title">No Paywall</div>
-                <div class="hero-promise-text">Intelligence should be accessible. The Fulcrum is free — always.</div>
-              </div>
-            </div>
+        <div class="hero-promise-bar">
+          <div class="hero-promise-card">
+            <span class="hero-promise-icon">⚖️</span>
+            <div class="hero-promise-title">No Agenda</div>
+            <div class="hero-promise-text">No party affiliation. No nationalist bias. No advertiser influence. Ever.</div>
+          </div>
+          <div class="hero-promise-card">
+            <span class="hero-promise-icon">🔍</span>
+            <div class="hero-promise-title">No Opinion</div>
+            <div class="hero-promise-text">We explain India's logic. We don't tell you what to think about it.</div>
+          </div>
+          <div class="hero-promise-card">
+            <span class="hero-promise-icon">🔓</span>
+            <div class="hero-promise-title">No Paywall</div>
+            <div class="hero-promise-text">Intelligence should be accessible. The Fulcrum is free — always.</div>
           </div>
         </div>
       </div>
@@ -301,33 +291,31 @@ const breadcrumbs = [{ name: "Home", url: siteUrl }];
     color: var(--color-border);
   }
 
-  /* ---- Hero promise block ---- */
-  .hero-bottom {
+  /* ---- Hero promise bar ---- */
+  .hero-promise-bar {
     margin-top: 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    background: #1e2530;
+    border-radius: 6px;
+    overflow: hidden;
   }
 
-  .hero-rule {
-    height: 1px;
-    background: var(--color-border);
-    margin-bottom: 1.5rem;
+  .hero-promise-card {
+    text-align: center;
+    padding: 1.25rem 1rem;
+    border-right: 1px solid #2a3040;
   }
 
-  .hero-promise-row {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .hero-promise-item {
-    display: flex;
-    gap: 0.85rem;
-    align-items: flex-start;
+  .hero-promise-card:last-child {
+    border-right: none;
   }
 
   .hero-promise-icon {
-    font-size: 1.1rem;
-    flex-shrink: 0;
-    margin-top: 1px;
+    font-size: 1.3rem;
+    display: block;
+    margin-bottom: 0.5rem;
   }
 
   .hero-promise-title {
@@ -335,17 +323,16 @@ const breadcrumbs = [{ name: "Home", url: siteUrl }];
     font-size: 0.72rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--color-primary);
-    margin-bottom: 0.2rem;
+    letter-spacing: 0.08em;
+    color: var(--color-white, #fff);
+    margin-bottom: 0.35rem;
   }
 
   .hero-promise-text {
     font-family: var(--font-body);
-    font-size: 0.82rem;
-    color: var(--color-text-secondary);
-    line-height: 1.5;
-    font-style: italic;
+    font-size: 0.75rem;
+    color: #999;
+    line-height: 1.45;
   }
 
   /* ---- Chess illustration ---- */
@@ -488,6 +475,19 @@ const breadcrumbs = [{ name: "Home", url: siteUrl }];
 
     .hero-subscribe-text {
       white-space: normal;
+    }
+
+    .hero-promise-bar {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-promise-card {
+      border-right: none;
+      border-bottom: 1px solid #2a3040;
+    }
+
+    .hero-promise-card:last-child {
+      border-bottom: none;
     }
 
     .article-feed-section {
