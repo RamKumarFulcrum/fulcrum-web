@@ -51,6 +51,10 @@ const breadcrumbs = [{ name: "Home", url: siteUrl }];
         <span>No Western framing</span>
       </div>
     </div>
+    <div class="subscribe-inline">
+      <p class="subscribe-inline-text">Weekly intelligence on India's place in the world.</p>
+      <a href="https://readfulcrum.beehiiv.com/subscribe" target="_blank" class="subscribe-inline-btn">Subscribe Free →</a>
+    </div>
     <header class="section-header">
       <span class="section-label">Latest Analysis</span>
       <div class="section-rule"></div>
@@ -58,7 +62,7 @@ const breadcrumbs = [{ name: "Home", url: siteUrl }];
 
     {posts && posts.length > 0 ? (
       <div class="posts-list">
-        {posts.map((post: any) => (
+        {posts.map((post: any, index: number) => (
           <PostCard
             title={post.title}
             slug={post.slug}
@@ -66,6 +70,7 @@ const breadcrumbs = [{ name: "Home", url: siteUrl }];
             publishedAt={post.publishedAt}
             authorName={post.authorName}
             categoryName={post.categoryName}
+            featured={index === 0}
           />
         ))}
       </div>
@@ -131,7 +136,7 @@ const breadcrumbs = [{ name: "Home", url: siteUrl }];
     font-weight: 700;
     line-height: 1.25;
     color: var(--color-primary);
-    max-width: 640px;
+    max-width: 560px;
     margin-bottom: 1.25rem;
   }
 
@@ -178,9 +183,52 @@ const breadcrumbs = [{ name: "Home", url: siteUrl }];
     margin-top: 0.5rem;
   }
 
+  .subscribe-inline {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.5rem 2rem;
+    background: var(--color-primary);
+    border-radius: 4px;
+    margin: 2rem 0;
+  }
+
+  .subscribe-inline-text {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: var(--color-bg);
+    font-style: italic;
+    flex: 1;
+  }
+
+  .subscribe-inline-btn {
+    font-family: var(--font-ui);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-primary);
+    background: var(--color-accent);
+    text-decoration: none;
+    padding: 0.65rem 1.5rem;
+    border-radius: 2px;
+    white-space: nowrap;
+    transition: background 0.2s;
+  }
+
+  .subscribe-inline-btn:hover {
+    background: #b8852e;
+  }
+
   @media (max-width: 768px) {
+    .subscribe-inline {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1.25rem;
+    }
     .hero-headline {
-      font-size: 1.5rem;
+      font-size: 1.9rem;
     }
   }
 </style>

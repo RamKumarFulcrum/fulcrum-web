@@ -65,6 +65,16 @@ const breadcrumbSchema = breadcrumbs.length > 0 ? JSON.stringify({
       </button>
     </div>
   </header>
+  <nav class="category-nav">
+    <div class="category-nav-inner">
+      <a href="/category/foreign-policy">Foreign Policy</a>
+      <a href="/category/defence">Defence</a>
+      <a href="/category/energy">Energy</a>
+      <a href="/category/china">China</a>
+      <a href="/category/diaspora">Diaspora</a>
+      <a href="/category/economy">Economy</a>
+    </div>
+  </nav>
 
   <main class="site-main">
     <slot />
@@ -72,22 +82,28 @@ const breadcrumbSchema = breadcrumbs.length > 0 ? JSON.stringify({
 
   <footer class="site-footer">
     <div class="footer-inner">
-      <div class="footer-brand">
+      <div class="footer-col-brand">
         <p class="footer-title">The Fulcrum</p>
         <p class="footer-tagline">India's strategic intelligence.</p>
+        <p class="footer-about">Independent geopolitical intelligence for analysts, investors, and policymakers who make decisions where India matters.</p>
+        <a href="https://readfulcrum.beehiiv.com/subscribe" target="_blank" class="footer-subscribe">Subscribe Free →</a>
       </div>
-      <div class="footer-links">
-        <a href="/">Home</a>
+      <div class="footer-col-links">
+        <p class="footer-col-title">Topics</p>
+        <a href="/category/foreign-policy">Foreign Policy</a>
+        <a href="/category/defence">Defence</a>
+        <a href="/category/energy">Energy</a>
         <a href="/glossary">Glossary</a>
         <a href="/about">About</a>
       </div>
-      <div class="footer-social">
-        <a href="https://x.com/readfulcrum" aria-label="Twitter/X" target="_blank">X / Twitter</a>
-        <a href="https://linkedin.com/company/readfulcrum" aria-label="LinkedIn" target="_blank">LinkedIn</a>
-        <a href="https://readfulcrum.beehiiv.com/subscribe" aria-label="Newsletter" target="_blank">Newsletter</a>
+      <div class="footer-col-links">
+        <p class="footer-col-title">Follow</p>
+        <a href="https://x.com/readfulcrum" target="_blank">X / Twitter</a>
+        <a href="https://linkedin.com/company/readfulcrum" target="_blank">LinkedIn</a>
+        <a href="https://readfulcrum.beehiiv.com/subscribe" target="_blank">Newsletter</a>
       </div>
       <div class="footer-copyright">
-        <p>&copy; {new Date().getFullYear()} The Fulcrum. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} The Fulcrum. All rights reserved. · <a href="/about" style="color:inherit">About</a></p>
       </div>
     </div>
   </footer>
@@ -146,8 +162,8 @@ const breadcrumbSchema = breadcrumbs.length > 0 ? JSON.stringify({
      RED TOP BORDER (Economist-style)
      ============================================ */
   .red-top-border {
-    height: 3px;
-    background: var(--color-red);
+    height: 5px;
+    background: var(--color-accent);
     width: 100%;
   }
 
@@ -339,9 +355,15 @@ const breadcrumbSchema = breadcrumbs.length > 0 ? JSON.stringify({
     max-width: var(--max-width);
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 1fr auto auto;
-    gap: 2rem;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 3rem;
     align-items: start;
+  }
+
+  .footer-col-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
   }
 
   .footer-title {
@@ -360,42 +382,59 @@ const breadcrumbSchema = breadcrumbs.length > 0 ? JSON.stringify({
     color: #888;
   }
 
-  .footer-links {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+  .footer-about {
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    color: #888;
+    line-height: 1.6;
+    font-style: italic;
   }
 
-  .footer-links a {
+  .footer-subscribe {
+    display: inline-block;
     font-family: var(--font-ui);
-    font-size: 0.8rem;
-    font-weight: 500;
-    color: #aaa;
-    text-decoration: none;
+    font-size: 0.72rem;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    transition: color 0.2s;
+    letter-spacing: 0.1em;
+    color: var(--color-primary);
+    background: var(--color-accent);
+    text-decoration: none;
+    padding: 0.55rem 1.25rem;
+    border-radius: 2px;
+    width: fit-content;
+    transition: background 0.2s;
   }
 
-  .footer-links a:hover {
-    color: var(--color-white);
+  .footer-subscribe:hover {
+    background: #b8852e;
   }
 
-  .footer-social {
+  .footer-col-links {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.6rem;
   }
 
-  .footer-social a {
+  .footer-col-title {
     font-family: var(--font-ui);
-    font-size: 0.8rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #555;
+    margin-bottom: 0.25rem;
+  }
+
+  .footer-col-links a {
+    font-family: var(--font-ui);
+    font-size: 0.82rem;
     color: #aaa;
     text-decoration: none;
-    transition: color 0.2s;
+    transition: color 0.15s;
   }
 
-  .footer-social a:hover {
+  .footer-col-links a:hover {
     color: var(--color-accent);
   }
 
@@ -404,7 +443,55 @@ const breadcrumbSchema = breadcrumbs.length > 0 ? JSON.stringify({
     padding-top: 1.5rem;
     border-top: 1px solid #2a2a2a;
     font-size: 0.75rem;
-    color: #666;
+    color: #555;
+  }
+
+  /* ============================================
+     CATEGORY NAV
+     ============================================ */
+  .category-nav {
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
+    position: sticky;
+    top: 73px;
+    z-index: 99;
+  }
+
+  .category-nav-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .category-nav-inner::-webkit-scrollbar {
+    display: none;
+  }
+
+  .category-nav-inner a {
+    font-family: var(--font-ui);
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    padding: 0.7rem 1.25rem;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.15s;
+  }
+
+  .category-nav-inner a:first-child {
+    padding-left: 0;
+  }
+
+  .category-nav-inner a:hover {
+    color: var(--color-accent);
+    border-bottom-color: var(--color-accent);
   }
 
   /* ============================================
@@ -513,15 +600,13 @@ const breadcrumbSchema = breadcrumbs.length > 0 ? JSON.stringify({
       font-size: 0.7rem;
     }
 
-    .footer-inner {
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
+    .category-nav {
+      top: 60px;
     }
 
-    .footer-links,
-    .footer-social {
-      flex-direction: row;
-      gap: 1.25rem;
+    .footer-inner {
+      grid-template-columns: 1fr;
+      gap: 2rem;
     }
   }
 </style>

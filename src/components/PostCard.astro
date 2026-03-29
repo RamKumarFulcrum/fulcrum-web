@@ -6,16 +6,20 @@ interface Props {
   publishedAt?: string;
   authorName?: string;
   categoryName?: string;
+  featured?: boolean;
 }
 
-const { title, slug, excerpt, publishedAt, authorName, categoryName } = Astro.props;
+const { title, slug, excerpt, publishedAt, authorName, categoryName, featured = false } = Astro.props;
+
+const wordCount = excerpt ? excerpt.split(' ').length * 8 : 800;
+const readTime = Math.max(3, Math.ceil(wordCount / 200));
 
 const formattedDate = publishedAt
   ? new Date(publishedAt).toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' })
   : null;
 ---
 
-<article class="post-card">
+<article class={`post-card${featured ? ' post-card--featured' : ''}`}>
   <a href={`/blog/${slug}`} class="post-card-link">
     {categoryName && <span class="post-card-category">{categoryName}</span>}
     <h2 class="post-card-title">{title}</h2>
@@ -24,6 +28,8 @@ const formattedDate = publishedAt
       {authorName && <span class="post-card-author">{authorName}</span>}
       {authorName && formattedDate && <span class="meta-sep">/</span>}
       {formattedDate && <time>{formattedDate}</time>}
+      <span class="meta-sep">/</span>
+      <span class="read-time">{readTime} min read</span>
     </div>
   </a>
 </article>
@@ -96,5 +102,37 @@ const formattedDate = publishedAt
 
   .meta-sep {
     color: var(--color-border, #E5E5E5);
+  }
+
+  .post-card--featured {
+    padding-bottom: 2.5rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 2px solid var(--color-border, #E4DDD3);
+  }
+
+  .post-card--featured .post-card-link {
+    padding: 2rem 0 0;
+  }
+
+  .post-card--featured .post-card-title {
+    font-size: 2rem;
+    line-height: 1.2;
+    margin-bottom: 0.85rem;
+  }
+
+  .post-card--featured .post-card-excerpt {
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: var(--color-text-secondary, #1E2530);
+    -webkit-line-clamp: unset;
+    display: block;
+  }
+
+  .post-card--featured .post-card-category {
+    font-size: 0.72rem;
+  }
+
+  .read-time {
+    color: var(--color-text-muted, #888888);
   }
 </style>
