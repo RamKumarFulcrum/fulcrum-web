@@ -37,16 +37,11 @@ const formattedDate = publishedAt
 <style>
   .post-card {
     border-bottom: 1px solid var(--color-border, #E5E5E5);
-    border-left: 3px solid transparent;
-    transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    position: relative;
+    transition: background 0.2s ease;
   }
 
   .post-card:hover {
-    background: var(--color-white, #fff);
-    border-left-color: var(--color-accent, #C9973A);
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-    transform: translateX(4px);
+    background: rgba(201, 151, 58, 0.04);
   }
 
   .post-card-link {
@@ -74,20 +69,16 @@ const formattedDate = publishedAt
     color: var(--color-primary, #1a1a1a);
     margin-bottom: 0.6rem;
     line-height: 1.35;
-    transition: color 0.25s, transform 0.25s;
-    transform-origin: left center;
+    transition: color 0.2s ease;
+    text-decoration: underline transparent;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1.5px;
+    transition: color 0.2s ease, text-decoration-color 0.2s ease;
   }
 
   .post-card:hover .post-card-title {
-    color: var(--color-accent, #C9973A);
-  }
-
-  .post-card:hover .post-card-category {
-    color: #b8852e;
-  }
-
-  .post-card:hover .read-time {
-    color: var(--color-accent, #C9973A);
+    color: var(--color-primary, #1a1a1a);
+    text-decoration-color: var(--color-accent, #C9973A);
   }
 
   .post-card-excerpt {
