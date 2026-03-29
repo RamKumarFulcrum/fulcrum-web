@@ -52,6 +52,10 @@ const breadcrumbs = [{ name: "Home", url: siteUrl }];
           <span class="proof-sep">·</span>
           <span>No Western framing</span>
         </div>
+        <div class="hero-free">
+          <span>🔓</span>
+          <span>No paywall. No premium tier. Intelligence shouldn't be gated.</span>
+        </div>
       </div>
 
       <div class="hero-sidebar">
@@ -271,6 +275,16 @@ const breadcrumbs = [{ name: "Home", url: siteUrl }];
 
   .proof-sep {
     color: var(--color-border);
+  }
+
+  .hero-free {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-ui);
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+    margin-top: 1rem;
   }
 
   /* ---- Chess illustration ---- */
