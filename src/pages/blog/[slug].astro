@@ -1,0 +1,210 @@
+---
+export const prerender = false;
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PortableTextComponent from '../../components/PortableText.astro';
+import { client } from '../../lib/sanity';
+
+export async function getStaticPaths() {
+  const posts = await client.fetch(`*[_type == "post"]{ "slug": slug.current }`);
+  return posts.map((post: any) => ({ params: { slug: post.slug } }));
+}
+
+const { slug } = Astro.params;
+
+const post = await client.fetch(
+  `*[_type == "post" && slug.current == $slug][0]{
+    title,
+    "slug": slug.current,
+    publishedAt,
+    excerpt,
+    body,
+    tags,
+    "authorName": author->name,
+    "authorSlug": author->slug.current,
+    "categories": categories[]->{ title, "slug": slug.current }
+  }`,
+  { slug }
+);
+
+if (!post) {
+  return Astro.redirect('/404');
+}
+
+const siteUrl = 'https://thefulcrum.in';
+
+const formattedDate = post.publishedAt
+  ? new Date(post.publishedAt).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' })
+  : null;
+
+const articleSchema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": post.title,
+  "datePublished": post.publishedAt,
+  "description": post.excerpt || '',
+  "author": {
+    "@type": "Person",
+    "name": post.authorName || 'The Fulcrum'
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "The Fulcrum",
+    "url": siteUrl
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": `${siteUrl}/blog/${post.slug}`
+  }
+});
+
+const breadcrumbs = [
+  { name: "Home", url: siteUrl },
+  { name: "Blog", url: `${siteUrl}/blog` },
+  { name: post.title, url: `${siteUrl}/blog/${post.slug}` }
+];
+---
+
+<BaseLayout
+  title={post.title}
+  description={post.excerpt}
+  breadcrumbs={breadcrumbs}
+  schemaMarkup={articleSchema}
+>
+  <article class="post">
+    <header class="post-header">
+      {post.categories && post.categories.length > 0 && (
+        <div class="post-categories">
+          {post.categories.map((cat: any) => (
+            <a href={`/category/${cat.slug}`} class="category-tag">{cat.title}</a>
+          ))}
+        </div>
+      )}
+      <h1>{post.title}</h1>
+      <div class="post-meta">
+        {post.authorName && (
+          <span class="post-meta-item">
+            By <a href={`/author/${post.authorSlug}`} class="post-author">{post.authorName}</a>
+          </span>
+        )}
+        {formattedDate && <time class="post-meta-item">{formattedDate}</time>}
+      </div>
+    </header>
+
+    <div class="post-body">
+      <PortableTextComponent value={post.body} />
+    </div>
+
+    {post.tags && post.tags.length > 0 && (
+      <footer class="post-tags">
+        <span class="tags-label">Tags</span>
+        {post.tags.map((tag: string) => (
+          <span class="tag">{tag}</span>
+        ))}
+      </footer>
+    )}
+  </article>
+</BaseLayout>
+
+<style>
+  .post {
+    max-width: var(--content-width);
+    margin: 0 auto;
+  }
+
+  .post-header {
+    padding-bottom: 2rem;
+    margin-bottom: 2.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .post-categories {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .category-tag {
+    font-family: var(--font-ui);
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-accent);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .category-tag:hover {
+    color: #d15a12;
+  }
+
+  .post-header h1 {
+    font-family: var(--font-headline);
+    font-size: 2.4rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--color-primary);
+    margin-bottom: 1.25rem;
+  }
+
+  .post-meta {
+    display: flex;
+    gap: 1.25rem;
+    font-family: var(--font-ui);
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+  }
+
+  .post-meta-item {
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .post-author {
+    font-weight: 600;
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+
+  .post-author:hover {
+    color: var(--color-accent);
+  }
+
+  .post-tags {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .tags-label {
+    font-family: var(--font-ui);
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text-muted);
+    margin-right: 0.25rem;
+  }
+
+  .tag {
+    font-family: var(--font-ui);
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 0.3rem 0.75rem;
+    background: transparent;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+    border-radius: 2px;
+  }
+
+  @media (max-width: 768px) {
+    .post-header h1 {
+      font-size: 1.75rem;
+    }
+  }
+</style>

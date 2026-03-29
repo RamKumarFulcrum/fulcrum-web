@@ -1,0 +1,100 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const siteUrl = 'https://thefulcrum.in';
+
+const personSchema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "The Fulcrum Editorial Team",
+  "url": siteUrl,
+  "description": "Independent analysts covering Indian geopolitics, foreign policy, defense strategy, and diplomacy.",
+  "worksFor": {
+    "@type": "Organization",
+    "name": "The Fulcrum",
+    "url": siteUrl
+  }
+});
+
+const breadcrumbs = [
+  { name: "Home", url: siteUrl },
+  { name: "About", url: `${siteUrl}/about` }
+];
+---
+
+<BaseLayout
+  title="About"
+  description="About The Fulcrum - independent analysis of Indian geopolitics, foreign policy, defense, and diplomacy."
+  breadcrumbs={breadcrumbs}
+  schemaMarkup={personSchema}
+>
+  <div class="about-page">
+    <header class="page-header">
+      <span class="page-label">About</span>
+      <h1>The Fulcrum</h1>
+    </header>
+
+    <div class="prose">
+      <p>Most publications that cover India do one of two things. They cover India from the outside — through a Western lens that treats India as a market, a problem, or an emerging power to be managed. Or they cover India from the inside — domestic politics, party rivalries, the news cycle.</p>
+
+      <p>Neither of these is useful if you need to understand how India actually thinks.</p>
+
+      <p>India is now the swing actor in every major global event. The war in Ukraine. The rivalry with China. The future of BRICS. The race for rare earths. AI governance. Climate finance. In every one of these conversations, India's position changes the outcome — and yet there is no dedicated publication that reads these events through India's strategic vantage point.</p>
+
+      <p>The Fulcrum exists to fill that gap.</p>
+
+      <h2>What we are</h2>
+
+      <p>We are an intelligence publication, not a news site. We do not break news. We do not publish opinion columns or party-political commentary. We publish structured, long-form analysis of global events through the lens of India's strategic interests — written for professionals who make decisions where India matters.</p>
+
+      <p>Our readers include foreign policy analysts, diplomats, investors with India exposure, think-tank researchers, and members of the global Indian diaspora who want to understand India's role in the world on their own terms — not through the BBC, not through Indian partisan media, and not through a Bloomberg sidebar.</p>
+
+      <h2>What we are not</h2>
+
+      <p>We are not a news aggregator. We are not a political blog. We do not have a party affiliation or a nationalist agenda. We are not trying to be The Wire, The Print, or Foreign Affairs. Those are excellent publications doing different things.</p>
+
+      <p>We are the publication that asks a different question: not "what is happening in India" — but "how does India see what is happening in the world."</p>
+
+      <h2>Why now</h2>
+
+      <p>India will be the world's third-largest economy by 2030. Its diaspora of 35 million people holds senior positions in governments, boardrooms, and institutions across every major country. Its strategic choices — on Russia, on China, on the United States, on technology governance — will shape the next decade of global affairs more than almost any other single actor.</p>
+
+      <p>The Fulcrum is built for the moment India arrives.</p>
+
+      <h2>Get in touch</h2>
+
+      <p>We are a small, independent publication. If you have a tip, a research lead, or want to write for us, reach us at <a href="mailto:hello@thefulcrum.in">hello@thefulcrum.in</a>.</p>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .about-page {
+    max-width: var(--content-width);
+    margin: 0 auto;
+  }
+
+  .page-header {
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .page-label {
+    font-family: var(--font-ui);
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-accent);
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+
+  .page-header h1 {
+    font-family: var(--font-headline);
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--color-primary);
+  }
+</style>

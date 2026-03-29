@@ -1,0 +1,126 @@
+---
+export const prerender = false;
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import { client } from '../../lib/sanity';
+
+export async function getStaticPaths() {
+  const categories = await client.fetch(`*[_type == "category"]{ "slug": slug.current }`);
+  return categories.map((cat: any) => ({ params: { slug: cat.slug } }));
+}
+
+const { slug } = Astro.params;
+
+const category = await client.fetch(
+  `*[_type == "category" && slug.current == $slug][0]{
+    title,
+    "slug": slug.current,
+    description
+  }`,
+  { slug }
+);
+
+if (!category) {
+  return Astro.redirect('/404');
+}
+
+const posts = await client.fetch(
+  `*[_type == "post" && $slug in categories[]->slug.current] | order(publishedAt desc){
+    title,
+    "slug": slug.current,
+    publishedAt,
+    excerpt,
+    "authorName": author->name
+  }`,
+  { slug }
+);
+
+const siteUrl = 'https://thefulcrum.in';
+
+const breadcrumbs = [
+  { name: "Home", url: siteUrl },
+  { name: "Categories", url: `${siteUrl}/category` },
+  { name: category.title, url: `${siteUrl}/category/${category.slug}` }
+];
+---
+
+<BaseLayout
+  title={category.title}
+  description={category.description || `Posts in the ${category.title} category.`}
+  breadcrumbs={breadcrumbs}
+>
+  <div class="category-page">
+    <header class="page-header">
+      <span class="page-label">Category</span>
+      <h1>{category.title}</h1>
+      {category.description && <p>{category.description}</p>}
+    </header>
+
+    {posts && posts.length > 0 ? (
+      <div class="posts-list">
+        {posts.map((post: any) => (
+          <PostCard
+            title={post.title}
+            slug={post.slug}
+            excerpt={post.excerpt}
+            publishedAt={post.publishedAt}
+            authorName={post.authorName}
+          />
+        ))}
+      </div>
+    ) : (
+      <p class="empty-state">No posts in this category yet.</p>
+    )}
+  </div>
+</BaseLayout>
+
+<style>
+  .category-page {
+    max-width: 740px;
+    margin: 0 auto;
+  }
+
+  .page-header {
+    padding-bottom: 2rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .page-label {
+    font-family: var(--font-ui);
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-accent);
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+
+  .page-header h1 {
+    font-family: var(--font-headline);
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .page-header p {
+    font-family: var(--font-body);
+    color: var(--color-text-secondary);
+    font-size: 1rem;
+  }
+
+  .posts-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .empty-state {
+    text-align: center;
+    color: var(--color-text-muted);
+    padding: 3rem 0;
+    font-family: var(--font-body);
+  }
+</style>

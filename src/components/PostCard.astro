@@ -1,0 +1,100 @@
+---
+interface Props {
+  title: string;
+  slug: string;
+  excerpt?: string;
+  publishedAt?: string;
+  authorName?: string;
+  categoryName?: string;
+}
+
+const { title, slug, excerpt, publishedAt, authorName, categoryName } = Astro.props;
+
+const formattedDate = publishedAt
+  ? new Date(publishedAt).toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' })
+  : null;
+---
+
+<article class="post-card">
+  <a href={`/blog/${slug}`} class="post-card-link">
+    {categoryName && <span class="post-card-category">{categoryName}</span>}
+    <h2 class="post-card-title">{title}</h2>
+    {excerpt && <p class="post-card-excerpt">{excerpt}</p>}
+    <div class="post-card-meta">
+      {authorName && <span class="post-card-author">{authorName}</span>}
+      {authorName && formattedDate && <span class="meta-sep">/</span>}
+      {formattedDate && <time>{formattedDate}</time>}
+    </div>
+  </a>
+</article>
+
+<style>
+  .post-card {
+    border-bottom: 1px solid var(--color-border, #E5E5E5);
+    transition: background 0.15s ease;
+  }
+
+  .post-card:hover {
+    background: rgba(232, 105, 26, 0.03);
+  }
+
+  .post-card-link {
+    display: block;
+    padding: 1.75rem 0;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .post-card-category {
+    font-family: var(--font-ui, 'DM Sans', sans-serif);
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-accent, #E8691A);
+    display: inline-block;
+    margin-bottom: 0.6rem;
+  }
+
+  .post-card-title {
+    font-family: var(--font-headline, 'Playfair Display', serif);
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--color-primary, #1a1a1a);
+    margin-bottom: 0.6rem;
+    line-height: 1.35;
+    transition: color 0.15s;
+  }
+
+  .post-card:hover .post-card-title {
+    color: var(--color-accent, #E8691A);
+  }
+
+  .post-card-excerpt {
+    font-family: var(--font-body, 'Source Serif 4', serif);
+    font-size: 0.95rem;
+    color: var(--color-text-secondary, #666);
+    line-height: 1.6;
+    margin-bottom: 0.85rem;
+  }
+
+  .post-card-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-ui, 'DM Sans', sans-serif);
+    font-size: 0.75rem;
+    color: var(--color-text-muted, #999);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .post-card-author {
+    font-weight: 600;
+    color: var(--color-primary, #1a1a1a);
+  }
+
+  .meta-sep {
+    color: var(--color-border, #E5E5E5);
+  }
+</style>

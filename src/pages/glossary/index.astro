@@ -1,0 +1,149 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { client } from '../../lib/sanity';
+
+const terms = await client.fetch(
+  `*[_type == "glossaryTerm"] | order(term asc){
+    term,
+    "slug": slug.current,
+    "definitionPlain": pt::text(definition)
+  }`
+);
+
+const siteUrl = 'https://thefulcrum.in';
+
+const faqSchema = terms && terms.length > 0 ? JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": terms.map((t: any) => ({
+    "@type": "Question",
+    "name": `What is ${t.term}?`,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": t.definitionPlain || `Definition of ${t.term} in the context of Indian geopolitics.`
+    }
+  }))
+}) : null;
+
+const breadcrumbs = [
+  { name: "Home", url: siteUrl },
+  { name: "Glossary", url: `${siteUrl}/glossary` }
+];
+---
+
+<BaseLayout
+  title="Glossary"
+  description="Key terms and concepts in Indian geopolitics, foreign policy, and defense."
+  breadcrumbs={breadcrumbs}
+  schemaMarkup={faqSchema}
+>
+  <div class="glossary-page">
+    <header class="page-header">
+      <span class="page-label">Reference</span>
+      <h1>Glossary</h1>
+      <p>Key terms and concepts in Indian geopolitics, foreign policy, and defense.</p>
+    </header>
+
+    {terms && terms.length > 0 ? (
+      <ul class="glossary-list">
+        {terms.map((term: any) => (
+          <li class="glossary-item">
+            <a href={`/glossary/${term.slug}`}>
+              <h2>{term.term}</h2>
+              {term.definitionPlain && (
+                <p>{term.definitionPlain.length > 150 ? term.definitionPlain.slice(0, 150) + '...' : term.definitionPlain}</p>
+              )}
+            </a>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p class="empty-state">No glossary terms yet. Add terms in Sanity Studio.</p>
+    )}
+  </div>
+</BaseLayout>
+
+<style>
+  .glossary-page {
+    max-width: 740px;
+    margin: 0 auto;
+  }
+
+  .page-header {
+    padding-bottom: 2rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .page-label {
+    font-family: var(--font-ui);
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-accent);
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+
+  .page-header h1 {
+    font-family: var(--font-headline);
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .page-header p {
+    font-family: var(--font-body);
+    color: var(--color-text-secondary);
+    font-size: 1rem;
+  }
+
+  .glossary-list {
+    list-style: none;
+  }
+
+  .glossary-item {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .glossary-item a {
+    display: block;
+    padding: 1.25rem 0;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.15s;
+  }
+
+  .glossary-item a:hover {
+    padding-left: 0.75rem;
+  }
+
+  .glossary-item a:hover h2 {
+    color: var(--color-accent);
+  }
+
+  .glossary-item h2 {
+    font-family: var(--font-headline);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: 0.2rem;
+    transition: color 0.15s;
+  }
+
+  .glossary-item p {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+  }
+
+  .empty-state {
+    text-align: center;
+    color: var(--color-text-muted);
+    padding: 3rem 0;
+    font-family: var(--font-body);
+  }
+</style>

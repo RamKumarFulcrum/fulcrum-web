@@ -1,0 +1,175 @@
+---
+export const prerender = false;
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import { client } from '../../lib/sanity';
+
+export async function getStaticPaths() {
+  const authors = await client.fetch(`*[_type == "author"]{ "slug": slug.current }`);
+  return authors.map((author: any) => ({ params: { slug: author.slug } }));
+}
+
+const { slug } = Astro.params;
+
+const author = await client.fetch(
+  `*[_type == "author" && slug.current == $slug][0]{
+    name,
+    "slug": slug.current,
+    bio,
+    twitterHandle
+  }`,
+  { slug }
+);
+
+if (!author) {
+  return Astro.redirect('/404');
+}
+
+const posts = await client.fetch(
+  `*[_type == "post" && author->slug.current == $slug] | order(publishedAt desc){
+    title,
+    "slug": slug.current,
+    publishedAt,
+    excerpt,
+    "categoryName": categories[0]->title
+  }`,
+  { slug }
+);
+
+const siteUrl = 'https://thefulcrum.in';
+
+const personSchema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": author.name,
+  "description": author.bio || '',
+  "url": `${siteUrl}/author/${author.slug}`,
+  ...(author.twitterHandle ? { "sameAs": [`https://twitter.com/${author.twitterHandle.replace('@', '')}`] } : {})
+});
+
+const breadcrumbs = [
+  { name: "Home", url: siteUrl },
+  { name: "Authors", url: `${siteUrl}/author` },
+  { name: author.name, url: `${siteUrl}/author/${author.slug}` }
+];
+---
+
+<BaseLayout
+  title={author.name}
+  description={author.bio || `Articles by ${author.name}`}
+  breadcrumbs={breadcrumbs}
+  schemaMarkup={personSchema}
+>
+  <div class="author-page">
+    <header class="author-header">
+      <span class="author-label">Author</span>
+      <h1>{author.name}</h1>
+      {author.bio && <p class="author-bio">{author.bio}</p>}
+      {author.twitterHandle && (
+        <a href={`https://twitter.com/${author.twitterHandle.replace('@', '')}`} class="author-twitter" target="_blank" rel="noopener noreferrer">
+          @{author.twitterHandle.replace('@', '')}
+        </a>
+      )}
+    </header>
+
+    {posts && posts.length > 0 ? (
+      <section class="author-posts">
+        <h2 class="section-label">Articles</h2>
+        <div class="section-rule"></div>
+        <div class="posts-list">
+          {posts.map((post: any) => (
+            <PostCard
+              title={post.title}
+              slug={post.slug}
+              excerpt={post.excerpt}
+              publishedAt={post.publishedAt}
+              categoryName={post.categoryName}
+            />
+          ))}
+        </div>
+      </section>
+    ) : (
+      <p class="empty-state">No articles published yet.</p>
+    )}
+  </div>
+</BaseLayout>
+
+<style>
+  .author-page {
+    max-width: 740px;
+    margin: 0 auto;
+  }
+
+  .author-header {
+    padding-bottom: 2.5rem;
+    margin-bottom: 2.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .author-label {
+    font-family: var(--font-ui);
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-accent);
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+
+  .author-header h1 {
+    font-family: var(--font-headline);
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: 0.75rem;
+  }
+
+  .author-bio {
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+    margin-bottom: 0.75rem;
+  }
+
+  .author-twitter {
+    font-family: var(--font-ui);
+    font-size: 0.85rem;
+    color: var(--color-accent);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .author-twitter:hover {
+    text-decoration: underline;
+  }
+
+  .section-label {
+    font-family: var(--font-ui);
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--color-accent);
+    margin-bottom: 0.75rem;
+  }
+
+  .section-rule {
+    height: 1px;
+    background: var(--color-border);
+  }
+
+  .posts-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .empty-state {
+    text-align: center;
+    color: var(--color-text-muted);
+    padding: 2rem 0;
+    font-family: var(--font-body);
+  }
+</style>

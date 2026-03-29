@@ -1,0 +1,143 @@
+---
+export const prerender = false;
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PortableTextComponent from '../../components/PortableText.astro';
+import { client } from '../../lib/sanity';
+
+export async function getStaticPaths() {
+  const terms = await client.fetch(`*[_type == "glossaryTerm"]{ "slug": slug.current }`);
+  return terms.map((term: any) => ({ params: { slug: term.slug } }));
+}
+
+const { slug } = Astro.params;
+
+const term = await client.fetch(
+  `*[_type == "glossaryTerm" && slug.current == $slug][0]{
+    term,
+    "slug": slug.current,
+    definition,
+    "relatedTerms": relatedTerms[]->{ term, "slug": slug.current }
+  }`,
+  { slug }
+);
+
+if (!term) {
+  return Astro.redirect('/404');
+}
+
+const siteUrl = 'https://thefulcrum.in';
+
+const breadcrumbs = [
+  { name: "Home", url: siteUrl },
+  { name: "Glossary", url: `${siteUrl}/glossary` },
+  { name: term.term, url: `${siteUrl}/glossary/${term.slug}` }
+];
+---
+
+<BaseLayout
+  title={term.term}
+  description={`Definition of ${term.term} in the context of Indian geopolitics.`}
+  breadcrumbs={breadcrumbs}
+>
+  <div class="term-page">
+    <header class="term-header">
+      <a href="/glossary" class="back-link">&larr; Glossary</a>
+      <span class="term-label">Definition</span>
+      <h1>{term.term}</h1>
+    </header>
+
+    <div class="term-body">
+      <PortableTextComponent value={term.definition} />
+    </div>
+
+    {term.relatedTerms && term.relatedTerms.length > 0 && (
+      <aside class="related-terms">
+        <h2>Related Terms</h2>
+        <ul>
+          {term.relatedTerms.map((rt: any) => (
+            <li><a href={`/glossary/${rt.slug}`}>{rt.term}</a></li>
+          ))}
+        </ul>
+      </aside>
+    )}
+  </div>
+</BaseLayout>
+
+<style>
+  .term-page {
+    max-width: var(--content-width);
+    margin: 0 auto;
+  }
+
+  .back-link {
+    font-family: var(--font-ui);
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    transition: color 0.15s;
+  }
+
+  .back-link:hover {
+    color: var(--color-accent);
+  }
+
+  .term-label {
+    font-family: var(--font-ui);
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-accent);
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .term-header h1 {
+    font-family: var(--font-headline);
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: 2rem;
+  }
+
+  .related-terms {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .related-terms h2 {
+    font-family: var(--font-ui);
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-accent);
+    margin-bottom: 0.75rem;
+  }
+
+  .related-terms ul {
+    list-style: none;
+  }
+
+  .related-terms li {
+    margin-bottom: 0.5rem;
+  }
+
+  .related-terms a {
+    font-family: var(--font-headline);
+    font-size: 1rem;
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 700;
+    transition: color 0.15s;
+  }
+
+  .related-terms a:hover {
+    color: var(--color-accent);
+  }
+</style>
