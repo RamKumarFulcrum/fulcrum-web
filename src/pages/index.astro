@@ -86,6 +86,16 @@ const breadcrumbs = [{ name: "Home", url: siteUrl }];
       </div>
 
       <aside class="sidebar">
+        <div class="sidebar-brand">
+          <a href="/" class="sidebar-brand-link">
+            <p class="sidebar-brand-title">
+              <span class="sidebar-brand-the">THE</span>
+              <span class="sidebar-brand-name">FULCRUM</span>
+            </p>
+            <p class="sidebar-brand-tagline">India's strategic intelligence.</p>
+          </a>
+        </div>
+
         <div class="sidebar-block sidebar-subscribe">
           <p class="sidebar-label">Newsletter</p>
           <p class="sidebar-subscribe-text">Get weekly geopolitical intelligence delivered to your inbox.</p>
@@ -300,6 +310,54 @@ const breadcrumbs = [{ name: "Home", url: siteUrl }];
     letter-spacing: 0.12em;
     color: var(--color-accent);
     margin-bottom: 0.85rem;
+  }
+
+  /* Brand logo block */
+  .sidebar-brand {
+    text-align: center;
+    padding: 1.75rem 1.5rem;
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+  }
+
+  .sidebar-brand-link {
+    text-decoration: none;
+    color: var(--color-primary);
+    display: block;
+  }
+
+  .sidebar-brand-title {
+    font-family: var(--font-headline);
+    font-weight: 900;
+    font-size: 1.5rem;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    display: flex;
+    justify-content: center;
+    gap: 0.3em;
+  }
+
+  .sidebar-brand-name {
+    position: relative;
+  }
+
+  .sidebar-brand-name::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--color-accent);
+  }
+
+  .sidebar-brand-tagline {
+    font-family: var(--font-body);
+    font-style: italic;
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    margin-top: 0.5rem;
   }
 
   /* Subscribe block */
