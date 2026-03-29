@@ -164,25 +164,13 @@ const breadcrumbs = [{ name: "Home", url: siteUrl }];
             <text x="170" y="378" font-family="'DM Sans', sans-serif" font-size="7.5" font-weight="600" fill="#B8960A" text-anchor="middle" letter-spacing="0.25em">EVERY MOVE HAS A CONSEQUENCE</text>
           </svg>
         </div>
-
-        <div class="hero-sidebar-posts">
-          <p class="hero-sidebar-label">Latest Analysis</p>
-          {posts && posts.length > 0 && (
-            <ul class="hero-sidebar-list">
-              {posts.slice(0, 3).map((post: any) => (
-                <li>
-                  <a href={`/blog/${post.slug}`} class="hero-sidebar-link">{post.title}</a>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-        <div class="hero-sidebar-subscribe">
-          <p class="hero-sidebar-subscribe-title">The Fulcrum Brief</p>
-          <p class="hero-sidebar-subscribe-text">Weekly intelligence on India's strategic position in the world. Free.</p>
-          <a href="https://readfulcrum.beehiiv.com/subscribe" target="_blank" class="hero-sidebar-subscribe-btn">Subscribe →</a>
-        </div>
       </div>
+    </div>
+
+    <div class="hero-subscribe">
+      <p class="hero-subscribe-title">The Fulcrum Brief</p>
+      <p class="hero-subscribe-text">Weekly intelligence on India's strategic position in the world. Free.</p>
+      <a href="https://readfulcrum.beehiiv.com/subscribe" target="_blank" class="hero-subscribe-btn">Subscribe →</a>
     </div>
 
     <header class="section-header">
@@ -225,9 +213,8 @@ const breadcrumbs = [{ name: "Home", url: siteUrl }];
     grid-template-columns: 1fr 380px;
     gap: 4rem;
     align-items: center;
-    padding: 3rem 0 2.5rem;
-    border-bottom: 1px solid var(--color-border);
-    margin-bottom: 2.5rem;
+    padding: 3rem 0 2rem;
+    margin-bottom: 0;
   }
 
   .hero-text {
@@ -294,73 +281,18 @@ const breadcrumbs = [{ name: "Home", url: siteUrl }];
   .hero-sidebar {
     display: flex;
     flex-direction: column;
-    gap: 0;
   }
 
-  .hero-sidebar-posts {
-    background: var(--color-white);
-    border: 1px solid var(--color-border);
-    border-top: none;
-    padding: 1.5rem;
-  }
-
-  .hero-sidebar-label {
-    font-family: var(--font-ui);
-    font-size: 0.68rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--color-accent);
-    margin-bottom: 1rem;
-  }
-
-  .hero-sidebar-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-
-  .hero-sidebar-list li {
-    border-bottom: 1px solid var(--color-border);
-    padding: 0.75rem 0;
-  }
-
-  .hero-sidebar-list li:first-child {
-    padding-top: 0;
-  }
-
-  .hero-sidebar-list li:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
-  }
-
-  .hero-sidebar-link {
-    font-family: var(--font-headline);
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--color-primary);
-    text-decoration: none;
-    line-height: 1.35;
-    display: block;
-    transition: color 0.15s;
-  }
-
-  .hero-sidebar-link:hover {
-    color: var(--color-accent);
-  }
-
-  /* ---- Hero subscribe box ---- */
-  .hero-sidebar-subscribe {
+  /* ---- Full-width subscribe block ---- */
+  .hero-subscribe {
     background: var(--color-primary);
     color: var(--color-white);
-    padding: 1.5rem;
-    border-radius: 0 0 3px 3px;
+    padding: 1.5rem 2rem;
+    border-radius: 4px;
+    margin-bottom: 2.5rem;
   }
 
-  .hero-sidebar-subscribe-title {
+  .hero-subscribe-title {
     font-family: var(--font-ui);
     font-size: 0.72rem;
     font-weight: 700;
@@ -370,16 +302,16 @@ const breadcrumbs = [{ name: "Home", url: siteUrl }];
     margin-bottom: 0.6rem;
   }
 
-  .hero-sidebar-subscribe-text {
+  .hero-subscribe-text {
     font-family: var(--font-body);
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     color: #ccc;
     line-height: 1.6;
     font-style: italic;
     margin-bottom: 1rem;
   }
 
-  .hero-sidebar-subscribe-btn {
+  .hero-subscribe-btn {
     display: inline-block;
     font-family: var(--font-ui);
     font-size: 0.72rem;
@@ -394,7 +326,7 @@ const breadcrumbs = [{ name: "Home", url: siteUrl }];
     transition: background 0.2s;
   }
 
-  .hero-sidebar-subscribe-btn:hover {
+  .hero-subscribe-btn:hover {
     background: #b8852e;
   }
 
