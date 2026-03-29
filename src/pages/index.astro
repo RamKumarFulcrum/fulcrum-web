@@ -51,101 +51,73 @@ const breadcrumbs = [{ name: "Home", url: siteUrl }];
         <span>No Western framing</span>
       </div>
     </div>
-
-    <div class="homepage-grid">
-      <div class="homepage-main">
-        <div class="subscribe-inline">
-          <p class="subscribe-inline-text">Weekly intelligence on India's place in the world.</p>
-          <a href="https://readfulcrum.beehiiv.com/subscribe" target="_blank" class="subscribe-inline-btn">Subscribe Free →</a>
-        </div>
-        <header class="section-header">
-          <span class="section-label">Latest Analysis</span>
-          <div class="section-rule"></div>
-        </header>
-
-        {posts && posts.length > 0 ? (
-          <div class="posts-list">
-            {posts.map((post: any, index: number) => (
-              <PostCard
-                title={post.title}
-                slug={post.slug}
-                excerpt={post.excerpt}
-                publishedAt={post.publishedAt}
-                authorName={post.authorName}
-                categoryName={post.categoryName}
-                featured={index === 0}
-              />
-            ))}
-          </div>
-        ) : (
-          <div class="empty-state">
-            <p>No dispatches yet.</p>
-            <p class="empty-hint">Add content in Sanity Studio to see posts here.</p>
-          </div>
-        )}
-      </div>
-
-      <aside class="sidebar">
-        <div class="sidebar-brand">
-          <a href="/" class="sidebar-brand-link">
-            <p class="sidebar-brand-title">
-              <span class="sidebar-brand-the">THE</span>
-              <span class="sidebar-brand-name">FULCRUM</span>
-            </p>
-            <p class="sidebar-brand-tagline">India's strategic intelligence.</p>
-          </a>
-        </div>
-
-        <div class="sidebar-block sidebar-subscribe">
-          <p class="sidebar-label">Newsletter</p>
-          <p class="sidebar-subscribe-text">Get weekly geopolitical intelligence delivered to your inbox.</p>
-          <a href="https://readfulcrum.beehiiv.com/subscribe" target="_blank" class="sidebar-subscribe-btn">Subscribe Free →</a>
-        </div>
-
-        <div class="sidebar-block sidebar-about">
-          <p class="sidebar-label">About</p>
-          <p class="sidebar-about-text">The Fulcrum is an independent geopolitical intelligence publication. We cover foreign policy, defence, energy, and diplomacy — analysed through India's vantage point.</p>
-          <a href="/about" class="sidebar-about-link">Read more →</a>
-        </div>
-
-        {posts && posts.length > 0 && (
-          <div class="sidebar-block sidebar-recent">
-            <p class="sidebar-label">Recent</p>
-            <ul class="sidebar-recent-list">
-              {posts.slice(0, 4).map((post: any) => (
-                <li>
-                  <a href={`/blog/${post.slug}`} class="sidebar-recent-link">{post.title}</a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        <div class="sidebar-block sidebar-social">
-          <p class="sidebar-label">Follow</p>
-          <div class="sidebar-social-links">
-            <a href="https://x.com/readfulcrum" target="_blank">X / Twitter</a>
-            <a href="https://linkedin.com/company/readfulcrum" target="_blank">LinkedIn</a>
-            <a href="https://readfulcrum.beehiiv.com/subscribe" target="_blank">Newsletter</a>
-          </div>
-        </div>
-      </aside>
+    <div class="subscribe-inline">
+      <p class="subscribe-inline-text">Weekly intelligence on India's place in the world.</p>
+      <a href="https://readfulcrum.beehiiv.com/subscribe" target="_blank" class="subscribe-inline-btn">Subscribe Free →</a>
     </div>
+    <header class="section-header">
+      <span class="section-label">Latest Analysis</span>
+      <div class="section-rule"></div>
+    </header>
+
+    {posts && posts.length > 0 ? (
+      <div class="posts-list">
+        {posts.map((post: any, index: number) => (
+          <PostCard
+            title={post.title}
+            slug={post.slug}
+            excerpt={post.excerpt}
+            publishedAt={post.publishedAt}
+            authorName={post.authorName}
+            categoryName={post.categoryName}
+            featured={index === 0}
+          />
+        ))}
+      </div>
+    ) : (
+      <div class="empty-state">
+        <p>No dispatches yet.</p>
+        <p class="empty-hint">Add content in Sanity Studio to see posts here.</p>
+      </div>
+    )}
   </section>
 </BaseLayout>
 
 <style>
   .homepage {
-    max-width: var(--max-width);
+    max-width: 740px;
     margin: 0 auto;
   }
 
-  /* ---- Hero (full width) ---- */
+  .section-header {
+    margin-bottom: 0.5rem;
+  }
+
+  .section-label {
+    font-family: var(--font-ui);
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--color-accent);
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+
+  .section-rule {
+    height: 1px;
+    background: var(--color-border);
+  }
+
+  .posts-list {
+    display: flex;
+    flex-direction: column;
+  }
+
   .hero {
-    max-width: 740px;
     padding: 3rem 0 2.5rem;
     border-bottom: 1px solid var(--color-border);
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
   }
 
   .hero-kicker {
@@ -193,43 +165,6 @@ const breadcrumbs = [{ name: "Home", url: siteUrl }];
     color: var(--color-border);
   }
 
-  /* ---- Two-column grid ---- */
-  .homepage-grid {
-    display: grid;
-    grid-template-columns: 1fr 300px;
-    gap: 3.5rem;
-    align-items: start;
-  }
-
-  .homepage-main {
-    min-width: 0;
-  }
-
-  .section-header {
-    margin-bottom: 0.5rem;
-  }
-
-  .section-label {
-    font-family: var(--font-ui);
-    font-size: 0.72rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    color: var(--color-accent);
-    margin-bottom: 0.75rem;
-    display: block;
-  }
-
-  .section-rule {
-    height: 1px;
-    background: var(--color-border);
-  }
-
-  .posts-list {
-    display: flex;
-    flex-direction: column;
-  }
-
   .empty-state {
     text-align: center;
     padding: 4rem 0;
@@ -248,7 +183,6 @@ const breadcrumbs = [{ name: "Home", url: siteUrl }];
     margin-top: 0.5rem;
   }
 
-  /* ---- Subscribe inline (above posts) ---- */
   .subscribe-inline {
     display: flex;
     align-items: center;
@@ -256,7 +190,7 @@ const breadcrumbs = [{ name: "Home", url: siteUrl }];
     padding: 1.5rem 2rem;
     background: var(--color-primary);
     border-radius: 4px;
-    margin: 0 0 2rem;
+    margin: 2rem 0;
   }
 
   .subscribe-inline-text {
@@ -286,219 +220,13 @@ const breadcrumbs = [{ name: "Home", url: siteUrl }];
     background: #b8852e;
   }
 
-  /* ---- Sidebar ---- */
-  .sidebar {
-    position: sticky;
-    top: 6rem;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-  }
-
-  .sidebar-block {
-    padding: 1.5rem;
-    background: var(--color-white);
-    border: 1px solid var(--color-border);
-    border-radius: 4px;
-  }
-
-  .sidebar-label {
-    font-family: var(--font-ui);
-    font-size: 0.68rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--color-accent);
-    margin-bottom: 0.85rem;
-  }
-
-  /* Brand logo block */
-  .sidebar-brand {
-    text-align: center;
-    padding: 3rem 1.5rem;
-    background: var(--color-primary);
-    border: 1px solid var(--color-primary);
-    border-radius: 4px;
-  }
-
-  .sidebar-brand-link {
-    text-decoration: none;
-    color: var(--color-white);
-    display: block;
-  }
-
-  .sidebar-brand-title {
-    font-family: var(--font-headline);
-    font-weight: 900;
-    font-size: 2.2rem;
-    letter-spacing: 0.08em;
-    line-height: 1;
-    display: flex;
-    justify-content: center;
-    gap: 0.3em;
-  }
-
-  .sidebar-brand-name {
-    position: relative;
-  }
-
-  .sidebar-brand-name::after {
-    content: '';
-    position: absolute;
-    bottom: -5px;
-    left: 0;
-    width: 100%;
-    height: 4px;
-    background: var(--color-accent);
-  }
-
-  .sidebar-brand-tagline {
-    font-family: var(--font-body);
-    font-style: italic;
-    font-size: 0.88rem;
-    color: #999;
-    margin-top: 0.85rem;
-  }
-
-  /* Subscribe block */
-  .sidebar-subscribe {
-    background: var(--color-primary);
-    border-color: var(--color-primary);
-  }
-
-  .sidebar-subscribe .sidebar-label {
-    color: var(--color-accent);
-  }
-
-  .sidebar-subscribe-text {
-    font-family: var(--font-body);
-    font-size: 0.9rem;
-    color: #ccc;
-    line-height: 1.6;
-    font-style: italic;
-    margin-bottom: 1rem;
-  }
-
-  .sidebar-subscribe-btn {
-    display: inline-block;
-    font-family: var(--font-ui);
-    font-size: 0.72rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--color-primary);
-    background: var(--color-accent);
-    text-decoration: none;
-    padding: 0.6rem 1.25rem;
-    border-radius: 2px;
-    transition: background 0.2s;
-  }
-
-  .sidebar-subscribe-btn:hover {
-    background: #b8852e;
-  }
-
-  /* About block */
-  .sidebar-about-text {
-    font-family: var(--font-body);
-    font-size: 0.88rem;
-    color: var(--color-text-secondary);
-    line-height: 1.65;
-    margin-bottom: 0.75rem;
-  }
-
-  .sidebar-about-link {
-    font-family: var(--font-ui);
-    font-size: 0.72rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--color-accent);
-    text-decoration: none;
-    transition: color 0.15s;
-  }
-
-  .sidebar-about-link:hover {
-    color: #b8852e;
-  }
-
-  /* Recent posts block */
-  .sidebar-recent-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-
-  .sidebar-recent-list li {
-    border-bottom: 1px solid var(--color-border);
-    padding: 0.7rem 0;
-  }
-
-  .sidebar-recent-list li:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
-  }
-
-  .sidebar-recent-list li:first-child {
-    padding-top: 0;
-  }
-
-  .sidebar-recent-link {
-    font-family: var(--font-headline);
-    font-size: 0.92rem;
-    font-weight: 700;
-    color: var(--color-primary);
-    text-decoration: none;
-    line-height: 1.35;
-    display: block;
-    transition: color 0.15s;
-  }
-
-  .sidebar-recent-link:hover {
-    color: var(--color-accent);
-  }
-
-  /* Social block */
-  .sidebar-social-links {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .sidebar-social-links a {
-    font-family: var(--font-ui);
-    font-size: 0.82rem;
-    font-weight: 500;
-    color: var(--color-text-secondary);
-    text-decoration: none;
-    transition: color 0.15s;
-  }
-
-  .sidebar-social-links a:hover {
-    color: var(--color-accent);
-  }
-
-  /* ---- Mobile ---- */
   @media (max-width: 768px) {
-    .homepage-grid {
-      grid-template-columns: 1fr;
-      gap: 2rem;
-    }
-
-    .sidebar {
-      position: static;
-    }
-
     .subscribe-inline {
       flex-direction: column;
       align-items: flex-start;
       gap: 1rem;
       padding: 1.25rem;
     }
-
     .hero-headline {
       font-size: 1.9rem;
     }
