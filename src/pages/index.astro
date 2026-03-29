@@ -45,12 +45,9 @@ const breadcrumbs = [{ name: "Home", url: siteUrl }];
         <p class="hero-kicker">Geopolitical Intelligence</p>
         <h1 class="hero-headline">The world, read from India's vantage point.</h1>
         <p class="hero-sub">Independent geopolitical intelligence for analysts, investors, and policymakers who make decisions where India matters.</p>
-        <div class="hero-proof">
-          <span>No opinion columns</span>
-          <span class="proof-sep">·</span>
-          <span>No domestic politics</span>
-          <span class="proof-sep">·</span>
-          <span>No Western framing</span>
+        <div class="hero-promise-single">
+          <span class="hero-promise-icon">🔓</span>
+          <span class="hero-promise-text">No paywall. No premium tier. Intelligence shouldn't be gated.</span>
         </div>
 
         <div class="hero-bottom">
@@ -284,20 +281,26 @@ const breadcrumbs = [{ name: "Home", url: siteUrl }];
     margin-bottom: 1.5rem;
   }
 
-  .hero-proof {
-    font-family: var(--font-ui);
-    font-size: 0.75rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--color-text-muted);
+  .hero-promise-single {
     display: flex;
     align-items: center;
     gap: 0.6rem;
+    font-family: var(--font-ui);
+    font-size: 0.82rem;
+    color: var(--color-text-muted);
   }
 
-  .proof-sep {
-    color: var(--color-border);
+  .hero-promise-single .hero-promise-icon {
+    font-size: 1rem;
+    display: inline;
+    margin-bottom: 0;
+  }
+
+  .hero-promise-single .hero-promise-text {
+    font-family: var(--font-ui);
+    font-size: 0.82rem;
+    color: var(--color-text-muted);
+    line-height: 1.4;
   }
 
   /* ---- Hero promise block ---- */
