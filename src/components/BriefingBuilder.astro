@@ -1,0 +1,278 @@
+<div class="briefing-builder">
+  <div class="bb-header">
+    <div class="bb-eyebrow">Intelligence Tool</div>
+    <div class="bb-title">India Briefing Builder</div>
+    <div class="bb-desc">Generate a structured briefing note on any India foreign policy topic. Copy and use instantly.</div>
+  </div>
+
+  <div class="bb-form">
+    <div class="bb-field">
+      <label class="bb-label">Your audience</label>
+      <select class="bb-select" id="bb-audience">
+        <option>Board of Directors</option>
+        <option>Investment Committee</option>
+        <option>Government Minister</option>
+        <option>Journalist</option>
+        <option>Academic Audience</option>
+      </select>
+    </div>
+    <div class="bb-field">
+      <label class="bb-label">Focus topic</label>
+      <select class="bb-select" id="bb-topic">
+        <option>India–China Relations</option>
+        <option>India–Russia Energy</option>
+        <option>India–US Tech Partnership</option>
+        <option>India's UN Voting Pattern</option>
+        <option>India's Defence Strategy</option>
+        <option>India's BRICS Role</option>
+      </select>
+    </div>
+    <button class="bb-btn" id="bb-generate">Generate Briefing →</button>
+  </div>
+
+  <div class="bb-result" id="bb-result">
+    <div class="bb-result-header">
+      <div class="bb-result-title" id="bb-result-title">Briefing Note</div>
+      <button class="bb-copy" id="bb-copy">Copy</button>
+    </div>
+    <div class="bb-section">
+      <div class="bb-section-label">Executive Summary</div>
+      <div class="bb-section-text" id="bb-exec"></div>
+    </div>
+    <div class="bb-section">
+      <div class="bb-section-label">Key Facts</div>
+      <div class="bb-section-text" id="bb-facts"></div>
+    </div>
+    <div class="bb-section">
+      <div class="bb-section-label">What to Watch</div>
+      <div class="bb-section-text" id="bb-watch"></div>
+    </div>
+    <div class="bb-footer">Source: The Fulcrum — readfulcrum.in</div>
+  </div>
+</div>
+
+<script>
+const briefings = {
+  'India–China Relations': {
+    exec: "India's relationship with China is defined by competitive coexistence — simultaneously its largest trading partner and most consequential strategic rival. The 2020 Galwan clash fundamentally reset bilateral trust.",
+    facts: "• India–China trade: $135B annually despite border tensions\n• LAC standoff: unresolved since June 2020\n• India has joined every anti-China tech framework — Quad, iCET, chip alliance\n• China is India's largest source of pharmaceutical APIs (70% of imports)",
+    watch: "Any LAC escalation will trigger immediate Indian defence spending increases and accelerated decoupling from Chinese supply chains. Monitor PLA troop movements in Eastern Ladakh."
+  },
+  'India–Russia Energy': {
+    exec: "India has dramatically deepened its Russian energy dependency since 2022 — a deliberate strategic choice, not a forced arrangement. Russia now supplies 42% of India's crude oil, making it the single largest supplier.",
+    facts: "• Russian oil share: 0.2% (2021) → 42% (2024)\n• Estimated annual savings: $35B at discounted prices\n• Settlement increasingly in non-dollar currencies\n• India is now Russia's largest oil customer, displacing Europe",
+    watch: "If Western pressure forces Indian banks to exit Russian transactions, India faces a serious energy cost shock. Monitor US Treasury secondary sanctions guidance on Indian financial institutions."
+  },
+  'India–US Tech Partnership': {
+    exec: "The US–India technology partnership (iCET) is the fastest-moving dimension of bilateral relations — driven by shared interest in reducing dependence on Chinese technology supply chains.",
+    facts: "• iCET launched 2023: semiconductors, AI, quantum, space, defence\n• GE jet engine deal: first US transfer of fighter jet engine technology to India\n• India joining US semiconductor supply chain framework\n• TSMC and Micron investments in India accelerating",
+    watch: "The pace of iCET implementation is the best real-time indicator of US–India strategic trust. Any slowdown signals friction in the broader relationship."
+  },
+  "India's UN Voting Pattern": {
+    exec: "India abstains on contentious UN resolutions as a matter of doctrine — not indecision. This 75-year pattern is strategic autonomy in action: preserving leverage with all parties simultaneously.",
+    facts: "• Abstained: all Ukraine war resolutions (2022–present)\n• Historical precedents: Korea 1950, Hungary 1956, Gulf War 1991\n• India votes for humanitarian resolutions but against force authorisation\n• Pattern consistent across 7 decades and 4 ruling parties",
+    watch: "A shift from abstention to yes or no on any major resolution is a significant signal of India's strategic realignment. Watch for shifts in US pressure tactics."
+  },
+  "India's Defence Strategy": {
+    exec: "India is executing the world's most ambitious defence indigenisation programme — Atmanirbhar Bharat — while managing a complex transition away from Russian arms dependency.",
+    facts: "• 50-60% of military equipment: Russian origin\n• Defence budget 2024: $75B — world's 4th largest\n• Positive indigenisation list: 500+ items must be domestically produced\n• India now among world's top 25 defence exporters",
+    watch: "India's defence procurement decisions are the clearest indicator of which strategic relationships it is deepening. Monitor Russian vs Western equipment purchase ratios."
+  },
+  "India's BRICS Role": {
+    exec: "India values BRICS as a Global South platform but consistently resists it becoming a Chinese-led anti-Western bloc. New Delhi shapes BRICS from within rather than opposing it from outside.",
+    facts: "• BRICS GDP share: 35% of global output post-2023 expansion\n• India blocked multiple Chinese-backed BRICS proposals\n• Opposes BRICS financial architecture outside Indian influence\n• India used G20 presidency to balance BRICS and Western agendas",
+    watch: "India's stance on BRICS currency proposals is the clearest test of how far it will go in de-dollarisation. Any Indian support for a BRICS currency signals major strategic shift."
+  }
+};
+
+document.getElementById('bb-generate').addEventListener('click', () => {
+  const topic = document.getElementById('bb-topic').value;
+  const audience = document.getElementById('bb-audience').value;
+  const b = briefings[topic];
+  document.getElementById('bb-result-title').textContent = `Briefing Note — ${topic} — For: ${audience}`;
+  document.getElementById('bb-exec').textContent = b.exec;
+  document.getElementById('bb-facts').textContent = b.facts;
+  document.getElementById('bb-watch').textContent = b.watch;
+  document.getElementById('bb-result').style.display = 'block';
+  document.getElementById('bb-result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+});
+
+document.getElementById('bb-copy').addEventListener('click', () => {
+  const title = document.getElementById('bb-result-title').textContent;
+  const exec = document.getElementById('bb-exec').textContent;
+  const facts = document.getElementById('bb-facts').textContent;
+  const watch = document.getElementById('bb-watch').textContent;
+  const text = `${title}\n\nEXECUTIVE SUMMARY\n${exec}\n\nKEY FACTS\n${facts}\n\nWHAT TO WATCH\n${watch}\n\nSource: The Fulcrum — readfulcrum.in`;
+  navigator.clipboard.writeText(text);
+  document.getElementById('bb-copy').textContent = 'Copied ✓';
+  setTimeout(() => document.getElementById('bb-copy').textContent = 'Copy', 2000);
+});
+</script>
+
+<style>
+  .briefing-builder {
+    background: var(--color-white, #fff);
+    border: 0.5px solid var(--color-border, #E4DDD3);
+    border-radius: 4px;
+    padding: 1.5rem;
+  }
+
+  .bb-eyebrow {
+    font-family: var(--font-ui);
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--color-accent, #C9973A);
+    margin-bottom: 0.3rem;
+  }
+
+  .bb-title {
+    font-family: var(--font-headline);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-primary, #111418);
+    margin-bottom: 0.3rem;
+  }
+
+  .bb-desc {
+    font-family: var(--font-ui);
+    font-size: 0.75rem;
+    color: var(--color-text-muted, #888);
+    margin-bottom: 1.25rem;
+    line-height: 1.4;
+  }
+
+  .bb-field {
+    margin-bottom: 0.85rem;
+  }
+
+  .bb-label {
+    font-family: var(--font-ui);
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text-secondary, #1E2530);
+    display: block;
+    margin-bottom: 0.35rem;
+  }
+
+  .bb-select {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 0.5px solid var(--color-border, #E4DDD3);
+    border-radius: 2px;
+    font-family: var(--font-ui);
+    font-size: 0.82rem;
+    color: var(--color-primary, #111418);
+    background: var(--color-bg, #F8F5EE);
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23888' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    cursor: pointer;
+  }
+
+  .bb-btn {
+    width: 100%;
+    padding: 0.65rem;
+    background: var(--color-primary, #111418);
+    color: var(--color-accent, #C9973A);
+    border: none;
+    border-radius: 2px;
+    font-family: var(--font-ui);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-top: 0.25rem;
+  }
+
+  .bb-btn:hover {
+    background: var(--color-accent, #C9973A);
+    color: var(--color-primary, #111418);
+  }
+
+  .bb-result {
+    display: none;
+    margin-top: 1.25rem;
+    background: var(--color-primary, #111418);
+    border-radius: 4px;
+    padding: 1.1rem 1.25rem;
+  }
+
+  .bb-result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    gap: 10px;
+  }
+
+  .bb-result-title {
+    font-family: var(--font-ui);
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-accent, #C9973A);
+    line-height: 1.4;
+    flex: 1;
+  }
+
+  .bb-copy {
+    font-family: var(--font-ui);
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-primary, #111418);
+    background: var(--color-accent, #C9973A);
+    border: none;
+    padding: 3px 10px;
+    border-radius: 2px;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .bb-section {
+    margin-bottom: 0.85rem;
+    padding-bottom: 0.85rem;
+    border-bottom: 0.5px solid #2a2a2a;
+  }
+
+  .bb-section:last-of-type {
+    border-bottom: none;
+    margin-bottom: 0.5rem;
+  }
+
+  .bb-section-label {
+    font-family: var(--font-ui);
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-accent, #C9973A);
+    margin-bottom: 0.4rem;
+  }
+
+  .bb-section-text {
+    font-family: var(--font-body);
+    font-size: 0.82rem;
+    color: #d0c8b8;
+    line-height: 1.65;
+    white-space: pre-line;
+  }
+
+  .bb-footer {
+    font-family: var(--font-ui);
+    font-size: 0.65rem;
+    color: #444;
+    padding-top: 0.75rem;
+    border-top: 0.5px solid #2a2a2a;
+  }
+</style>

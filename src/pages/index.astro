@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PostCard from '../components/PostCard.astro';
+import BriefingBuilder from '../components/BriefingBuilder.astro';
 import { client } from '../lib/sanity';
 
 const posts = await client.fetch(
@@ -257,6 +258,9 @@ const breadcrumbs = [{ name: "Home", url: siteUrl }];
             Qualitative index based on The Fulcrum editorial assessment.
           </div>
         </div>
+
+        <div class="sidebar-briefing-gap"></div>
+        <BriefingBuilder />
       </aside>
     </div>
   </section>
@@ -551,6 +555,10 @@ const breadcrumbs = [{ name: "Home", url: siteUrl }];
     font-size: 0.68rem;
     color: var(--color-text-muted);
     line-height: 1.45;
+  }
+
+  .sidebar-briefing-gap {
+    height: 1.5rem;
   }
 
   .compass-footer {
