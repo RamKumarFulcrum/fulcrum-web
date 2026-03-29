@@ -180,16 +180,11 @@ const breadcrumbs = [{ name: "Home", url: siteUrl }];
 
         <div class="hero-sidebar-subscribe">
           <p class="hero-sidebar-subscribe-title">The Fulcrum Brief</p>
-          <p class="hero-sidebar-subscribe-text">Weekly intelligence on India's strategic position in the world. Free.</p>
+          <p class="hero-sidebar-subscribe-text">India is reshaping global power. Read it first. Join analysts, investors and policymakers. Weekly. Free.</p>
           <a href="https://readfulcrum.beehiiv.com/subscribe" target="_blank" class="hero-sidebar-subscribe-btn">Subscribe →</a>
         </div>
       </div>
     </div>
-
-    <header class="section-header">
-      <span class="section-label">Latest Analysis</span>
-      <div class="section-rule"></div>
-    </header>
 
     {posts && posts.length > 0 ? (
       <div class="posts-list">
@@ -233,6 +228,10 @@ const breadcrumbs = [{ name: "Home", url: siteUrl }];
 
   .hero-text {
     min-width: 0;
+    min-height: 420px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
   .hero-kicker {
@@ -401,27 +400,6 @@ const breadcrumbs = [{ name: "Home", url: siteUrl }];
   }
 
   /* ---- Below hero ---- */
-  .section-header {
-    margin-bottom: 0.5rem;
-    max-width: 740px;
-  }
-
-  .section-label {
-    font-family: var(--font-ui);
-    font-size: 0.72rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    color: var(--color-accent);
-    margin-bottom: 0.75rem;
-    display: block;
-  }
-
-  .section-rule {
-    height: 1px;
-    background: var(--color-border);
-  }
-
   .posts-list {
     display: flex;
     flex-direction: column;
@@ -451,6 +429,10 @@ const breadcrumbs = [{ name: "Home", url: siteUrl }];
     .hero {
       grid-template-columns: 1fr;
       gap: 2rem;
+    }
+
+    .hero-text {
+      min-height: auto;
     }
 
     .hero-headline {
